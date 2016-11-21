@@ -7,7 +7,7 @@ require_once'sqlite.php';
 if(strtolower($_REQUEST['authcode'])==$_SESSION['authcode']){
 	$DB=new SQLite( 'user_info1.db' );
 	$sql="select * from user_info where user_name='{$use}' and user_pw='{$pwd}'";
-	echo $sql;
+	//echo $sql;
 	$data = $DB->getlist($sql);
 	if( count($data)>0 ){
 		$_SESSION['user_name']=$use;
