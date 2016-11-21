@@ -18,7 +18,7 @@ if($sub=='确认'){
 		}else{
 			$DB=new SQLite( 'user_info1.db' );
 			$password=md5($pw1);
-			$updata='update user_info set user_pw="'.$pw1.'" where user_name="'.$user.'" ';
+			$updata='update user_info set user_pw="'.$password.'" where user_name="'.$user.'" ';
 			//print_r($updata);
 			$DB->query($updata);
 			echo "<script>alert('您的密码修改成功!')</script>";
