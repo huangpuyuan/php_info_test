@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>登录页</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+<style type="text/css">
+  body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #eee;
+  }
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.captcha{
+  width: 100px;
+  height: 30px;
+  font-size:14px;
+}
+#submit{
+  width: 300px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <form class="form-signin"  name="form" novalidate >
+  <h4 class="page-header text-primary">后台cms管理系统</h4>
+  <hr>
+  <div class="form-group">    
+      <input class="form-control" type="text" name="use" id="user" required autofocus placeholder="用户名">
+      <input class="form-control"  type="password" name="pwd" id="pwd" required placeholder="密码">
+  </div>
+  <div class="form-group">
+      <img id="captcha_img" border="1" src="./captcha.php?r=<?php echo rand();?>" height="30" width="80">
+      <a href="javascript:void(0)" onClick="changeCaptcha();">换一个？</a>
+      <input class="captcha" type="text" name="authcode" placeholder="请输入验证码"/>      
+  </div>     
+  <button class="btn btn-info" name="sub" id="submit">登录</button>
+  </form>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <script>
+    function changeCaptcha(){
+     $('#captcha_img').attr('src','./captcha.php?r='+Math.random());
+    }
+
+    var formSignin = {};    
+
+    $('.form-signin').submit(function(){
+      formSignin.username = $("#user").val(),
+      formSignin.password = $("#pwd").val(); 
+
+       $.post('test.php',formSignin,function(res){
+         console.log(res);
+       })
+
+       return false;
+    });
+
+
+
+
+    // $('#submit').click(function(){
+    //   formSignin.username = $("#user").val(),
+    //   formSignin.password = $("#pwd").val(); 
+
+    //    $.post('test.php',formSignin,function(res){
+    //      console.log(res);
+    //    })
+    // });
+  </script>
+</div>
+</body>
+</html>
