@@ -17,7 +17,8 @@ if($sub=='确认'){
 			echo "===您两次输入的密码不一致，请重新输入!===";
 		}else{
 			$DB=new SQLite( 'user_info1.db' );
-			$updata='update user_info set user_pw="'.$pw1.'" where user_name="'.$user.'" ';
+			$password=md5($pw1);
+			$updata='update user_info set user_pw="'.$password.'" where user_name="'.$user.'" ';
 			//print_r($updata);
 			$DB->query($updata);
 			echo "<script>alert('您的密码修改成功!')</script>";
