@@ -1,91 +1,135 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>登录页</title>
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-<style type="text/css">
-  body {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      background-color: #eee;
-  }
-  .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
-}
-.form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-    margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-.captcha{
-  width: 100px;
-  height: 30px;
-  font-size:14px;
-}
-#submit{
-  width: 300px;
-  cursor: pointer;
-}
-</style>
-</head>
-<body>
-<div class="container">
-  <form class="form-signin"  name="form" novalidate >
-  <h4 class="page-header text-primary">后台cms管理系统</h4>
-  <hr>
-  <div class="form-group">    
-      <input class="form-control" type="text" name="use" id="user" required autofocus placeholder="用户名">
-      <input class="form-control"  type="password" name="pwd" id="pwd" required placeholder="密码">
-  </div>
-  <div class="form-group">
-      <img id="captcha_img" border="1" src="./captcha.php?r=<?php echo rand();?>" height="30" width="80">
-      <a href="javascript:void(0)" onClick="changeCaptcha();">换一个？</a>
-      <input class="captcha" type="text" name="authcode" placeholder="请输入验证码"/>      
-  </div>     
-  <button class="btn btn-info" name="sub" id="submit">登录</button>
-  </form>
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-  <script>
-    function changeCaptcha(){
-     $('#captcha_img').attr('src','./captcha.php?r='+Math.random());
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>登录页</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <style type="text/css">
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+    
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    
+    .form-signin input[type="password"] {
+        margin-bottom: 0;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    
+    .captcha {
+        border-radius: .25rem!important;
+        margin-top: 5px;
+        margin-left: 0!important;
+        height: 30px;
+        font-size: 14px;
     }
 
-    var formSignin = {};    
+    .captcha{
+		width: 140px;
+    	display: inline-block;
+    }
+    .form-group > img{
+        cursor: pointer;    	
+    }
+    .btn-info {
+        width: 300px;
+        cursor: pointer;
+    }
+    </style>
+</head>
 
-    $('.form-signin').submit(function(){
-      formSignin.username = $("#user").val(),
-      formSignin.password = $("#pwd").val(); 
+<body>
+    <div class="container">
+        <form class="form-signin" name="form" novalidate>
+            <h4 class="page-header text-primary">后台cms管理系统</h4>
+            <hr>
+            <div class="form-group">
+                <input class="form-control" type="text" name="use" id="user" required autofocus placeholder="用户名">
+                <input class="form-control" type="password" name="pwd" id="pwd" required placeholder="密码">
+            </div>
+            <div class="form-group">
+                <img id="captcha_img" border="1" onClick="changeCaptcha();" src="./captcha.php?r=<?php echo rand();?>" height="30" width="80">
+                <a href="javascript:void(0)" onClick="changeCaptcha();">换一个？</a>
+                <input class="captcha form-control" type="text" name="authcode" id="authcode" placeholder="请输入验证码" />
+                <div style="display: none;" class="form-control-feedback text-right">验证码错误</div>
+            </div>
+            <button class="btn btn-info" name="sub" id="submit">登录</button>
+        </form>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+        <script src="layer-v3.0.3/layer/layer.js"></script>
+        <script>
+        function changeCaptcha() {
+            $('#captcha_img').attr('src', './captcha.php?r=' + Math.random());
+        }
 
-       $.post('test.php',formSignin,function(res){
-         console.log(res);
-       })
+        var formSignin = {};
 
-       return false;
-    });
+        $('#authcode').on('input propertychange', function() {
+            //获取.input-form下的所有 <input> 元素,并实时监听用户输入
+            	$('.form-control-feedback').hide();
+            	$(this).parent().removeClass('has-danger');	
+        })
 
+        $('.form-signin').submit(function() {
+            formSignin.username = $("#user").val();
+            formSignin.password = $("#pwd").val();
+            formSignin.PIN = $("#authcode").val();
 
+            $.post('test.php', formSignin, function(res) {
+                console.log(res);
+                if (res.errortype == 4 || res.errortype == 3) {
+                    console.log('验证码错误');
+                    $("#authcode").addClass('form-control-danger').focus().parent().addClass('has-danger');
+                    $('.form-control-feedback').show();
+                }
 
+                if (res.errortype == 1 || res.errortype == 2) {
+                    layer.alert('用户名或密码为空', {
+                        icon: 2,
+                        offset: '130px'
+                    });
+                }
+                if (res.errortype == 101) {
+                    layer.alert('登录失败,用户名密码错误', {
+                        icon: 2,
+                        offset: '130px'
+                    });
+                }
 
-    // $('#submit').click(function(){
-    //   formSignin.username = $("#user").val(),
-    //   formSignin.password = $("#pwd").val(); 
+                if (res.errortype == 0) {
+                    layer.msg('登录成功', {
+                        icon: 16,
+                        shade: 0.05,
+                        offset: '130px'
+                    });
+                    setTimeout(function() {
+                        location.href = "index.html";
+                    }, 500)
 
-    //    $.post('test.php',formSignin,function(res){
-    //      console.log(res);
-    //    })
-    // });
-  </script>
-</div>
+                }
+            })
+
+            return false;
+        });
+        </script>
+    </div>
 </body>
+
 </html>
