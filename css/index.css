@@ -7,6 +7,9 @@ body {
     padding-top: 3.5rem;
 }
 
+button{
+    cursor: pointer!important;
+}
 /*
  * Typography
  */
@@ -44,7 +47,15 @@ h1 {
 }
 
 .sidebar .nav-item {
+    transition:background .5s ease;
     width: 100%;
+}
+.sidebar .nav-item:hover{
+    background-color:lightblue;
+}
+
+.sidebar .nav-item:hover > .nav-link{
+    color:whitesmoke;
 }
 
 .sidebar .nav-item + .nav-item {
