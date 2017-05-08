@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Dashboard Template for Bootstrap</title>
+    <title>CMS后台</title>
     <link rel="stylesheet" href="./css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="bootstrap-fileinput-master/css/fileinput.min.css">-->
     <!--<link rel="stylesheet" href="bootstrap-fileinput-master/themes/explorer/theme.min.css">-->
     <link rel="stylesheet" href="./css/index.css">
+    <style>
+        .picture {
+            margin: 0 auto;
+            width: 100%;
+            height: 380px;
+            border: 2px solid #eee;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-clip: content-box;
+            background-size: contain;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-inverse fixed-top bg-inverse">
@@ -93,10 +106,10 @@
         </main>
     </div>
 </div>
-<div class="modal fade" id="modal" id="modal" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form>
+            <form enctype="multipart/form-data" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">详细内容</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -110,7 +123,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="author-file" class="col-sm-2 col-form-label"><i class="fa fa-user-secret fa-lg"></i>&nbsp;作者图:</label>
+                        <label for="author-file" class="col-sm-2 col-form-label"><i
+                                class="fa fa-file-image-o fa-lg"></i>&nbsp;作者图:</label>
                         <div class="col-sm-2">
                             <input type="file" class="custom-file" id="author-file">
                             <!--<form action="post" enctype="multipart/form-data">-->
@@ -132,7 +146,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="title" class="col-sm-2 col-form-label"><i class="fa fa-paint-brush"></i>&nbsp;作品图片:</label>
+                        <label for="title" class="col-sm-2 col-form-label"><i
+                                class="fa fa-picture-o"></i>&nbsp;作品图片:</label>
                         <div class="col-sm-2">
                             <input type="file" class="custom-file" id="img-file">
                             <!--<form action="post" enctype="multipart/form-data">-->
@@ -155,12 +170,39 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" id="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div class="modal fade" id="details" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="picture" alt=" "></div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <img style="width:150px;height:200px;margin:20px;" alt=" "/>
+                    </div>
+                    <div class="col-md-9 col-sm-6">
+                        <h5 class="text-center"></h5>
+                        <div class="text-justify" style="text-indent: 2em;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
@@ -172,124 +214,6 @@
 
 <script src="./ckeditor_4.6.2_4e7f7bb52a52/ckeditor.js"></script>
 <script src="layer-v3.0.3/layer/layer.js"></script>
-<script>
-    (function () {
-        var ckEditor = CKEDITOR.replace('editor1');
-        /**
-         * 处理 Bootstrap modal 与 ckeditor的失去焦点的bug。
-         */
-        $('#modal').removeAttr('tabindex');
-        $('#modal').focusout(function () {
-            if ($('.cke_dialog_background_cover').css('display') == 'block') {
-
-                $(this).css({'position': 'relative'});
-                setTimeout(function () {
-                    $('#modal').css({'position': 'fixed'});
-                }, 10);
-            }
-        });
-
-        /**
-         *
-         * @param ctrlName
-         * @param uploadUrl
-         */
-//        function initFileInput(ctrlName, uploadUrl) {
-//            var control = $('#' + ctrlName);
-//            control.fileinput({
-//                language: 'zh', //设置语言
-//                uploadUrl: uploadUrl, //上传的地址
-//                allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
-//                showUpload: true, //是否显示上传按钮
-//                showCaption: true,//是否显示标题
-//                browseClass: "btn btn-primary btn-sm",//按钮样式
-//                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-//            });
-//        };
-//
-//        initFileInput("author-file", "/picture");
-
-
-        var sidebarItem = $('.sidebar').find('.nav-item > a');
-
-        // JQuery 实现跳转
-        sidebarItem.on('click', function () {
-            sidebarItem.removeClass('active');
-            var idx = $(this).addClass('active').parent().data('itemId');
-            $('main').hide();
-            $('#dashboard' + idx).show();
-        });
-
-        /**
-         *模板编辑,删除模板
-         * @param data
-         */
-        function editor(data) {
-            $('#content').find('.editor').on('click', function () {
-                var editorIdx = $(this).data('id');
-                var value = data[editorIdx - 1];
-                var urlHead = 'http://zt.hkstv.tv/';
-                var authorImgUrl = urlHead + value.filename;
-                var ImgUrl = urlHead + value.picture;
-
-                console.log(value);
-                $('#modal').modal();
-                $('.modal-body').find('#author').val(value.author);
-                $('.modal-body').find('#author-file-url').val(authorImgUrl)
-                    .parent().next('a.col-form-label').attr('href', authorImgUrl);
-                $('.modal-body').find('#title').val(value.title);
-                $('.modal-body').find('#img-file-url').val(ImgUrl)
-                    .parent().next('a.col-form-label').attr('href', ImgUrl);
-                ckEditor.setData(value.text);
-            });
-
-            // 删除数据
-            $('#content').find('.delete').on('click', function () {
-                var deleteIdx = $(this).data('id');
-                layer.confirm('您确定要删除这条吗？', {
-                    btn: ['确定', '取消'] //按钮
-                }, function () {
-                    // 删除
-                    layer.msg('删除成功', {icon: 1, time: 600});
-                }, function () {
-                    // 返回
-                });
-            })
-        }
-
-        /**模板渲染
-         *
-         * @param data
-         */
-
-        function render(data) {
-            $.each(data, function (idx, item) {
-                var tpl = `<tr>
-                            <th>${idx + 1}</th><th>${item.id}</th><th>${item.author}</th><th>《${item.title}》</th>
-                            <th><a href="#">查看详情</a></th>
-                            <th>
-                            <button class="btn btn-info btn-sm mr-2 editor" data-id="${idx + 1}">编辑</button>
-                            <button class="btn btn-danger btn-sm delete" data-id="${idx + 1}">删除</button>
-                            </th>
-                        </tr>`;
-                $('#content').append(tpl);
-            });
-            editor(data);
-        }
-
-
-        $.getJSON('/myworks/api/data/data.php', function (res) {
-            if (res.code == 200) {
-                var data = res.data;
-                // console.log(data);
-                render(data);
-            } else {
-
-            }
-        });
-
-
-    })()
-</script>
+<script src="./js/base.js"></script>
 </body>
 </html>

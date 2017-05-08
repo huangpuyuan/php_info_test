@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>获取json</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .picture {
+        margin: 0 auto;
+        width: 90%;
+        height: 500px;
+        border: 2px solid #eee;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-clip: content-box;
+        background-size: contain;
+        padding: 10px 20px;
+    }
+    
+    .para {
+        text-indent: 2em!important;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="page-header"> <small>从服务器获取JSON数据</small></h1>
+        <ul class="content">
+        </ul>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js "></script>
+    <script>
+    var mydata,
+        $ul = $('.content'),
+        urlheader = 'http://zt.hkstv.tv/';
+
+    $.getJSON('./getdata.php', function(resp) {
+        mydata = resp.data;
+        render(mydata);
+    });
+
+
+
+    function render(mydata) {
+        $.each(mydata, function(idx, value) {
+
+            var tpl = '<li>' + '<h3 class="text-left">' + (idx + 1) + '</h3>' +
+                '<div class="row ">' +
+                '<div class="col-md-4 ">' +
+                '<h4>作者 :' + value.author + '</h4>' +
+                '<img style="width:250px;height:300px;" src="' + urlheader + value.filename + '" alt=" " />' +
+                '</div>' +
+                '<div class="col-md-8 ">' +
+                '<h4>作者详情</h4>' + value.text +
+                '</div>' +
+                '</div>' +
+                '<div>' +
+                '<h4>作品:' + value.title + '</h4>' +
+                '<div class="picture" style="background-image:url(' + urlheader + value.picture + ');" alt=" " ></div>' +
+                '</div>' +
+                '</li>';
+
+            $ul.append(tpl);
+
+        });
+    }
+    </script>
+</body>
+
+</html>
