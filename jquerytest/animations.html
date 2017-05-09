@@ -5,9 +5,122 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <title>Document</title>
+    <style>
+        .module {
+            border: 1px solid #000;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        h1 {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .icon-roll {
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="module">
+        <div class="caption clearfix">
+            <h1>Module Caption</h1>
+            <span class="icon-roll ">-</span>
+            <span class="glyphicon glyphicon-minus"></span>
+            <div class="body">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta illum impedit maxime nam quam reiciendis
+                tenetur totam? Aspernatur commodi consequuntur deserunt distinctio, ducimus hic natus quasi rerum, unde,
+                vero vitae.
+            </div>
+        </div>
+    </div>
+    <div class="module">
+        <h1>Custom Effects Demo</h1>
+
+        <div class="buttons">
+            <button id="scale-button">Scale</button>
+            <button id="drop-button">Drop</button>
+            <button id="puff-button">Puff</button>
+            <button id="restore-button">Restore</button>
+        </div>
+
+        <img id="test-subject" src="../images/limes.png"/>
+    </div>
+</div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var $testSubject = $('#test-subject');
+
+    $('.icon-roll').click(function () {
+        var $icon = $(this);
+        $icon.closest('.module').find('.body')
+            .slideToggle('slow', function () {
+                $icon.text($(this).is(':hidden') ? '+' : '-');
+            });
+    });
+
+    $('#scale-button').click(function () {
+        $testSubject.animate({
+                width: $testSubject.width() * 2,
+                height: $testSubject.height() * 2
+            },
+            'slow'
+        );
+    });
+
+    $('#drop-button').click(function () {
+        $testSubject
+            .css('position', 'relative')
+            .animate({
+                    opacity: 0,
+                    top: $(window).height() - $testSubject.height() - $testSubject.position().top
+                },
+                'normal',
+                function () {
+                    $testSubject.hide();
+                }
+            );
+    });
+
+    $('#puff-button').click(function () {
+        // var $this = $(this);
+        var position = $testSubject.position();
+
+        $testSubject.css({
+            position: 'absolute',
+            top: position.top,
+            left: position.left,
+        }).animate({
+            opacity: 'hide',
+            width: $testSubject.width() * 5,
+            height: $testSubject.height() * 5,
+            top: position.top - ($testSubject.height() * 5 / 2),
+            left: position.left - ($testSubject.width() * 5 / 2)
+        }, 'slow')
+
+
+    });
+
+    $('#restore-button').click(function () {
+        $testSubject
+            .css({
+                width: 'auto',
+                height: 'auto',
+                top: 'auto',
+                left: 'auto',
+                opacity: 1,
+                position: 'static',
+                display: 'block'
+            });
+    });
+</script>
 </body>
 </html>
